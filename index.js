@@ -24,7 +24,7 @@ app.use(bodyParser.json());
 let Article = require('./models/article.js')
 
 app.get('/', function (req, res) {
-	res.send('Hello World! Hi!');
+	res.send('Api running');
 });
 
 app.get('/articles', function(req, res){
@@ -42,7 +42,11 @@ app.get('/articles/:id', function(req, res){
     if (err){
       res.send(err)
     } else {
-      res.send(article)
+      if (article){
+        res.send(article)
+      } else {
+        res.send('Error - this article doesnt exist')
+      }
     }
   });
 })
@@ -61,6 +65,36 @@ app.post('/articles', function(req, res){
       res.send('OK')
     }
   })
+})
+
+app.put('/articles/:id', function(req, res){
+  Article.findById(req.params.id , function(err, article){
+    if (err){
+      res.send(err)
+    } else {
+      article.title = req.body.title
+      article.body = req.body.body
+      article.likes = req.body.likes
+
+      article.save(function(err){
+        if (err){
+          res.send(err)
+        } else {
+          res.send('OK')
+        }
+      })
+    }
+  });
+})
+
+app.delete('/articles/:id', function(req, res){
+  Article.remove({ _id: req.params.id }, function (err) {
+    if (err){
+      res.send(err)
+    } else {
+      res.send('OK')
+    }
+  });
 })
 
 app.listen(3000, function () {
