@@ -1,6 +1,6 @@
 # express-api <br />
  <br />
-npm: commands <br />
+npm commands: <br />
 npm install <br />
 install nodemon npm install -g nodemon <br />
  <br />
